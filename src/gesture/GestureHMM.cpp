@@ -9,22 +9,26 @@ GestureHMM::GestureHMM(int hiddenStates, int alphabet, mat prior, mat transmat, 
 }
 
 GestureHMM::~GestureHMM() {
-	// TODO Auto-generated constructor stub
+	int trainset_size = _trainset.size();
+	for ( int i = 0; i < trainset_size; i++ ) {
+		delete _trainset[i];
+	}
+	_trainset.clear();
 }
 
 //--------------------------------------------------------------
 
 vector<double> GestureHMM::train(vector< Gesture* > train_set, int max_iter) {
 
-	this->used_train_set = train_set;
+	this->_trainset = train_set;
 
 	field<rowvec> data(train_set.size(),1);
 	vector< Gesture* >::const_iterator iter;
 	int r = 0;
 	for ( iter = train_set.begin(); iter != train_set.end(); ++iter ) {
 		Gesture * g = *iter;
-		vector<int> x = g->getLabeledPoints();
-		data(r++,0) = rowvec(g->getLabeledPointsString(" "));
+		vector<int> x = g->labels();
+		data(r++,0) = conv_to< rowvec >::from(g->labels());
 	}
 
 	return HMM::train(data, max_iter);
@@ -33,7 +37,7 @@ vector<double> GestureHMM::train(vector< Gesture* > train_set, int max_iter) {
 //--------------------------------------------------------------
 
 // TODO : move to an external class (kind of serialization factory)
-bool GestureHMM::save(string filename) {
+void GestureHMM::save(string filename) {
 	Gesture *g;
 	stringstream ss;
 	fix_stream(ss);
@@ -53,16 +57,17 @@ bool GestureHMM::save(string filename) {
 	XML.addTag("gestures");
 	XML.pushTag("gestures");
 
-	for (int i = 0; i < used_train_set.size(); ++i) {
-		g = used_train_set[i];
+	int trainset_size = _trainset.size();
+	for (int i = 0; i < trainset_size; ++i) {
+		g = _trainset[i];
 
 		XML.addTag("train_gestures");
 		XML.addAttribute("train_gestures","num",i, i);
 
 		XML.pushTag("train_gestures", i);
 		{
-			XML.addValue("labeled", g->getLabeledPointsString());
-			XML.addValue("raw", vector_to_string( g->getPoints()) );
+			XML.addValue("labeled", to_string(g->labels()));
+			XML.addValue("raw", to_string( g->points()) );
 		}
 		XML.popTag();
 	}
@@ -103,8 +108,8 @@ GestureHMM* GestureHMM::fromXML(string filename){
 			vector<ofPoint> raws = ofPointvector_from_string(XML.getValue("train_gestures:raw", "", i));
 			gestures[i] = new Gesture(raws, labels);
 		}
-		//cout << "GestureHMM::fromXML trainset size: " << gestures.size() << endl;
-		g->used_train_set = gestures;
+		//cout << "GestureHMM::fromXML _trainset size: " << gestures.size() << endl;
+		g->_trainset = gestures;
 	}
 	XML.popTag();
 
@@ -114,7 +119,7 @@ GestureHMM* GestureHMM::fromXML(string filename){
 
 //--------------------------------------------------------------
 
-vector< Gesture* > GestureHMM::get_used_train_set() {
-	return this->used_train_set;
+vector< Gesture* > GestureHMM::trainset() {
+	return this->_trainset;
 }
 

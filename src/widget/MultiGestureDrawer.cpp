@@ -33,9 +33,9 @@ void MultiGestureDrawer::draw(void) {
 
 		ofBeginShape();
 
-		size = g->getPoints().size();
+		size = g->points().size();
 		for (int j = 0; j < size; ++j) {
-			ofPoint p = g->getPoints()[j];
+			ofPoint p = g->points()[j];
 			ofVertex(p.x, p.y);
 		}
 

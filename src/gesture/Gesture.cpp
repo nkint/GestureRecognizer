@@ -4,8 +4,8 @@
 
 // TODO: centroids passed per reference is more efficent?
 Gesture::Gesture(vector<ofPoint> points, vector<int> labeled) {
-	this->points = points;
-	this->labeled_points = labeled;
+	this->_points = points;
+	this->_sequence = labeled;
 }
 
 Gesture::~Gesture() {
@@ -21,32 +21,21 @@ Gesture * Gesture::build_from_centroids(vector<ofPoint> points, vector<ofPoint> 
 
 //-------------------------------------------------------------- getter && setter
 
-vector<int>& Gesture::getLabeledPoints() {
-	return this->labeled_points;
+vector<int>& Gesture::labels() {
+	return this->_sequence;
 }
-vector<ofPoint>& Gesture::getPoints() {
-	return this->points;
-}
-
-string Gesture::getLabeledPointsString(const string delimiter) {
-
-	// or... with boost:
-	//return boost::join(getLabeledPoints(), delimiter);
-
-	vector<int> x = getLabeledPoints();
-	stringstream  s;
-	copy(x.begin(),x.end(), ostream_iterator<int>(s,delimiter.c_str()));
-	return s.str();
+vector<ofPoint>& Gesture::points() {
+	return this->_points;
 }
 
 void Gesture::setPoints(vector<ofPoint> & p)
 {
-	this->points = p;
+	this->_points = p;
 }
 
 void Gesture::setLabels(vector<int> & l)
 {
-	this->labeled_points = l;
+	this->_sequence = l;
 }
 
 //-------------------------------------------------------------- utils

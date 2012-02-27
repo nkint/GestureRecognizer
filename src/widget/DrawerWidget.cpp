@@ -54,11 +54,11 @@ void DrawerWidget::drawPath(vector<ofPoint> points) {
 
 //	ofSetColor(255,255,255);
 //	float min_x=0, min_y=0, max_x=0, max_y=0;
-//	if(points.size()>1 && drawing) {
-//		min_x = (*std::min_element(points.begin(), points.end(), &_compare_min_x)).x;
-//		min_y = (*std::min_element(points.begin(), points.end(), &_compare_min_y)).y;
-//		max_x = (*std::max_element(points.begin(), points.end(), &_compare_min_x)).x;
-//		max_y = (*std::max_element(points.begin(), points.end(), &_compare_min_y)).y;
+//	if(_points.size()>1 && drawing) {
+//		min_x = (*std::min_element(_points.begin(), _points.end(), &_compare_min_x)).x;
+//		min_y = (*std::min_element(_points.begin(), _points.end(), &_compare_min_y)).y;
+//		max_x = (*std::max_element(_points.begin(), _points.end(), &_compare_min_x)).x;
+//		max_y = (*std::max_element(_points.begin(), _points.end(), &_compare_min_y)).y;
 //
 //		ofEllipse(min_x, min_y, 5,5);
 //		ofEllipse(max_x, max_y, 5,5);

@@ -10,8 +10,6 @@
 OnlineGestureDrawer::OnlineGestureDrawer(std::string name, hPanel * parent, int dispMode, int xx, int yy, int width, int height)
 : DrawerWidget(name, parent, dispMode, xx, yy, width, height) {
 
-
-
 	float x,y;
 	for (int i = 1; i < 4; ++i) {
 		x = i*width/4;
@@ -23,7 +21,6 @@ OnlineGestureDrawer::OnlineGestureDrawer(std::string name, hPanel * parent, int 
 
 	this->frame_size = 150;
 	this->g = Gesture::build_from_centroids(getPoints(), centroids);
-	this->pool = PointPool::getInstance();
 }
 
 OnlineGestureDrawer::~OnlineGestureDrawer() {
@@ -36,11 +33,11 @@ void OnlineGestureDrawer::draw(void)
 {
 	DrawerWidget::draw();  // only when points repetiion will be deleted from DrawerWidget
 
-//	cout << "OnlineGestureDrawer::draw(void) " << g->getPoints().size() << endl;
+//	cout << "OnlineGestureDrawer::draw(void) " << g->points().size() << endl;
 //
 	this->initDraw();
 	ofSetColor(0,154,205, 100);
-	this->drawPath(this->g->getPoints());
+	this->drawPath(this->g->points());
 	this->endDraw();
 }
 
@@ -66,7 +63,7 @@ void OnlineGestureDrawer::mouseDragged(int xx, int yy, int btn) {
 	int size = points.size();
 	int l;
 	ofPoint apoint; // = *pool->getPoint();
-	vector<int>& rLabels = g->getLabeledPoints();
+	vector<int>& rLabels = g->labels();
 
 	apoint.x = xx-this->x;
 	apoint.y = yy-this->y;
@@ -101,7 +98,7 @@ void OnlineGestureDrawer::mouseDragged(int xx, int yy, int btn) {
 
 
 //	stringstream ss;
-//	vector<int> centroids_without_repetition = remove_duplicate(g->getLabeledPoints());
+//	vector<int> centroids_without_repetition = remove_duplicate(g->labels());
 //	ostream_iterator<int> set_string( ss, " " );
 //	copy(centroids_without_repetition.begin(), centroids_without_repetition.end(), set_string);
 //	cout << ss.str() << endl;

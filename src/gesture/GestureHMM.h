@@ -12,7 +12,7 @@
 #include "ofPoint.h"
 
 #include "../utils.h"
-#include "../hmm/HMM.h"
+#include "HMM.h"
 #include "Gesture.h"
 
 class GestureHMM: public HMM {
@@ -23,13 +23,13 @@ public:
 
 	vector<double> train(vector< Gesture* > train_set, int max_iter);
 
-	bool save(string filename);
+	void save(string filename);
 	static GestureHMM* fromXML(string filename);
 
-	vector< Gesture* > get_used_train_set();
+	vector< Gesture* > trainset();
 
 protected:
-	vector< Gesture* > used_train_set;
+	vector< Gesture* > _trainset;
 
 };
 

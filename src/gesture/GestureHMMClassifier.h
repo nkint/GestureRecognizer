@@ -5,27 +5,26 @@
  *      Author: alberto
  */
 
-#ifndef HMMCLASSIFIER_H_
-#define HMMCLASSIFIER_H_
+#ifndef GESTUREHMMCLASSIFIER_H_
+#define GESTUREHMMCLASSIFIER_H_
 
-#include <map>
-#include <limits>
-
+#include "HMMClassifier.h"
 #include "GestureHMM.h"
 
 using namespace std;
 
-class GestureHMMClassifier {
+class GestureHMMClassifier: public HMMClassifier {
+
 public:
 	GestureHMMClassifier();
 	virtual ~GestureHMMClassifier();
 
-	void add(GestureHMM* hmm);
-	GestureHMM* get(int i);
+//	void add(GestureHMM* hmm);
+//	GestureHMM* get(int i);
 
 	GestureHMM* classify(Gesture& data, double &l, double threashold=-500);
-private:
-	vector<GestureHMM*> hmms;
+//private:
+//	vector<GestureHMM*> hmms;
 };
 
-#endif /* HMMCLASSIFIER_H_ */
+#endif /* GESTUREHMMCLASSIFIER_H_ */

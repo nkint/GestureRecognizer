@@ -21,9 +21,8 @@ public:
 	Gesture(vector<ofPoint> points, vector<int> labeled);
 	virtual ~Gesture();
 
-	vector<ofPoint>& getPoints();
-    vector<int>& getLabeledPoints();
-    string getLabeledPointsString(const string delimiter=",");
+	vector<ofPoint>& points();
+    vector<int>& labels();
 
     void setPoints(vector<ofPoint>& p);
     void setLabels(vector<int>& l);
@@ -34,8 +33,8 @@ public:
     static int labelPoint(vector<ofPoint> & centroids, ofPoint & p);
 
 protected:
-	vector<ofPoint> points;
-    vector<int> labeled_points;
+	vector<ofPoint> _points;
+    vector<int> _sequence;
 };
 
 #endif /* GESTURE_H_ */

@@ -93,8 +93,8 @@ vector<int> GestureThrower::getLabeledPoints() {
 
 void GestureThrower::setGesture(Gesture * g) {
 	this->g = g;
-	this->points = g->getPoints();
-	this->labeled_points = g->getLabeledPoints();
+	this->points = g->points();
+	this->labeled_points = g->labels();
 }
 
 Gesture *GestureThrower::getGesture() {

@@ -53,7 +53,7 @@ void testApp::_event_add_gesture(hEventArgs& args) {
 
 	// take the path from Drawer and add in the map
 	Gesture * g = drawer->getGesture();
-	if(g != NULL && g->getPoints().size()>1) {
+	if(g != NULL && g->points().size()>1) {
 		train_set.push_back(g);
 		gesture_number++;
 		string s = to_string(gesture_number);
@@ -104,8 +104,11 @@ void testApp::_event_clear_gestures(hEventArgs & args)
 
 void testApp::_event_visualize_hmm(hEventArgs& args) {
 	selected_hmm = args.values[0]-1;
-	if(selected_hmm>=0 && selected_hmm<hmm_number)
-		visualize_hmm(c.get(selected_hmm));
+	if(selected_hmm>=0 && selected_hmm<hmm_number) {
+		GestureHMM *pGHMM = static_cast<GestureHMM*>(c.get(selected_hmm));
+		visualize_hmm(pGHMM);
+	}
+
 }
 
 void testApp::_event_hmm_name(hEventArgs& args) {
@@ -131,7 +134,7 @@ void  testApp::_event_classify(hEventArgs& args) {
 	stringstream ss;
 
 	ss << "sequence: ";
-	vector <int> v = remove_duplicate( g->getLabeledPoints() );
+	vector <int> v = remove_duplicate( g->labels() );
 	ostream_iterator<int> set_string( ss, " " );
 	copy(v.begin(), v.end(), set_string);
 	ss << endl << endl;
@@ -159,7 +162,7 @@ void testApp::_event_save(hEventArgs& args) {
 	// TODO : selected_hmm should be a getter to be sync with listbox
 	if(selected_hmm>=0) {
 		// TODO check the file does not already exist.
-		GestureHMM *g = c.get(selected_hmm);
+		GestureHMM *g = static_cast<GestureHMM*>(c.get(selected_hmm));
 		g->save(g->name+".xml");
 	}
 
@@ -185,7 +188,7 @@ void testApp::visualize_gesture(Gesture * g) {
 	GestureThrower * drawer = static_cast<GestureThrower*>(hEvents::getInstance()->getObject("drawer"));
 	hTextArea * sequence = static_cast<hTextArea*>(hEvents::getInstance()->getObject("sequence"));
 
-	vector<int> labeled = g->getLabeledPoints();
+	vector<int> labeled = g->labels();
 	stringstream ss;
 
 	if(g!=NULL) {
@@ -199,7 +202,7 @@ void testApp::visualize_gesture(Gesture * g) {
 		copy(centroids_without_repetition.begin(), centroids_without_repetition.end(), set_string);
 
 		ss << endl << endl << "labelled points:  ";
-		ss << g->getLabeledPointsString();
+		ss << to_string(g->labels());
 
 		drawer->setGesture(g);
 		sequence->setText(ss.str());
@@ -226,13 +229,13 @@ void testApp::visualize_hmm(GestureHMM * hmm) {
 	textBox_hmm_name->setLabel(hmm->name);
 
 	// draw of all training gesture
-	vector<Gesture* > gs = hmm->get_used_train_set();
+	vector<Gesture* > gs = hmm->trainset();
 	int num_gesture = gs.size();
 	for (int i = 0; i < num_gesture; ++i) {
-		vector<ofPoint>& pts = gs.at(i)->getPoints();
+		vector<ofPoint>& pts = gs.at(i)->points();
 		Gesture::rescale( drawer_hmm->getWidth(), pts );
 	}
-	//cout << "testApp::visualize_hmm trainset size: " << gs.size() << endl;
+	//cout << "testApp::visualize_hmm _trainset size: " << gs.size() << endl;
 	drawer_hmm->setGestures(gs);
 
 	stringstream ss;

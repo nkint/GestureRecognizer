@@ -32,13 +32,19 @@ vector<string> split(const string &s, char delim) {
 }
 
 static
-double string_to_double( const std::string& s ) {
+double double_from_string( const std::string& s ) {
 	// http://stackoverflow.com/a/393027/433685
 	std::istringstream i(s);
 	double x;
 	if (!(i >> x))
 		return 0;
 	return x;
+}
+
+template<typename Stream>
+void fix_stream(Stream& stream){
+    stream.precision(4);
+    stream.setf(ios::fixed);
 }
 
 template <class T>
@@ -49,10 +55,15 @@ ss << t;
 return ss.str();
 }
 
-template<typename Stream>
-void fix_stream(Stream& stream){
-    stream.precision(4);
-    stream.setf(ios::fixed);
+template<typename Item>
+string to_string(vector<Item>& v, const string& delimiter=" - ") {
+	stringstream ss;
+	fix_stream(ss);
+	int vsize = v.size();
+	for(int p=0; p<vsize; p++) {
+		ss << v[p] << delimiter;
+	}
+	return ss.str();
 }
 
 template<typename Matrix>
@@ -72,19 +83,9 @@ Matrix matrix_from_string(string s) {
 	return m;
 }
 
-template<typename Item>
-string vector_to_string(vector<Item>& v, const string& delimiter=" - ") {
-	stringstream ss;
-	fix_stream(ss);
-	int vsize = v.size();
-	for(int p=0; p<vsize; p++) {
-		ss << v[p] << delimiter;
-	}
-	return ss.str();
-}
-
 static
 vector<int> intvector_from_string(string s) {
+	/* does not support negative number (TODO) */
 
 	vector<string> tokenized;
 	tokenized = split(s, ',');
@@ -111,9 +112,9 @@ vector<ofPoint> ofPointvector_from_string(string s) {
 	result.resize(length);
 	for (int i = 0; i < length; ++i) {
 		vector<string> numbers = split(tokenized[i], ',');
-		double x = string_to_double(numbers[0]);
-		double y = string_to_double(numbers[1]);
-		double z = string_to_double(numbers[2]);
+		double x = double_from_string(numbers[0]);
+		double y = double_from_string(numbers[1]);
+		double z = double_from_string(numbers[2]);
 		ofPoint p(x,y,z);
 
 		result[i] = p;
@@ -139,10 +140,8 @@ vector<T> remove_duplicate(vector<T>& vec) {
 
 static
 bool _compare_second(pair<int, float> a, pair<int, float> b) { return a.second < b.second; }
-
 static
 bool _compare_min_x(ofPoint const &p1, ofPoint const &p2) { return p1.x < p2.x; }
-
 static
 bool _compare_min_y(ofPoint const &p1, ofPoint const &p2) { return p1.y < p2.y; }
 

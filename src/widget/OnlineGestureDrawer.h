@@ -43,7 +43,6 @@ protected:
 
     GestureHMMClassifier * c;
 
-    PointPool * pool;
 };
 
 #endif /* ONLINEGESTUREDRAWER_H_ */
