@@ -13,4 +13,3 @@ It is a projected developped with:
 
 # Platform #
 For now it is been tested only under Ubuntu 10.10.
-Eclipse CDT project are provided.
