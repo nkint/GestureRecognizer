@@ -8,7 +8,7 @@ This C++ project provide a simple graphical user interface for boh training and 
 It is a projected developped with:
 
 * [OPEN FRAMEWORKS](openframeworks.cc), thanks to the great community
-* [ofxhGUI](https://github.com/bernardgeyer/ofxhGui), a event-based graphical interface for OF devlopped by Bernard Geyer
+* [ofxhGUI](https://github.com/nkint/ofxhGui), my fork of an event-based graphical interface for OF devlopped by Bernard Geyer
 * [Armadillo](C++ linear algebra library), lightweight and fast library for matrix calculi
 
 # Platform #
