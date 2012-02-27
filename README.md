@@ -6,9 +6,11 @@ It consists in two phases: supervised learning with examples (training) and reco
 This C++ project provide a simple graphical user interface for boh training and classification.
 
 It is a projected developped with:
+
 * [OPEN FRAMEWORKS](openframeworks.cc), thanks to the great community
 * [ofxhGUI](https://github.com/bernardgeyer/ofxhGui), a event-based graphical interface for OF devlopped by Bernard Geyer
 * [Armadillo](C++ linear algebra library), lightweight and fast library for matrix calculi
 
 # Platform #
 For now it is been tested only under Ubuntu 10.10.
+Eclipse CDT project are provided.
