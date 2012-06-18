@@ -21,6 +21,8 @@ OnlineGestureDrawer::OnlineGestureDrawer(std::string name, hPanel * parent, int 
 
 	this->frame_size = 150;
 	this->g = Gesture::build_from_centroids(getPoints(), centroids);
+
+	receiver.setup( PORT );
 }
 
 OnlineGestureDrawer::~OnlineGestureDrawer() {
@@ -28,6 +30,55 @@ OnlineGestureDrawer::~OnlineGestureDrawer() {
 }
 
 //--------------------------------------------------------------
+
+void OnlineGestureDrawer::reciveOSC() {
+	// check for waiting messages
+	while( receiver.hasWaitingMessages() )
+	{
+		// get the next message
+		ofxOscMessage m;
+		receiver.getNextMessage( &m );
+
+		if (m.getAddress() == "/label/")
+		{
+			std::cout << "recived label" << std::endl;
+			int label = m.getArgAsInt32(0);
+			if (colors.count(label)==0) {
+				colors[label] = ofColor::fromHsb(ofRandom(255), 255, 255);
+			}
+			paths[label].push_back(ofPoint(m.getArgAsInt32( 1 ), m.getArgAsInt32( 2 )));
+		}
+		else if (m.getAddress() == "/label/old") {
+			int label = m.getArgAsInt32(0);
+			paths.erase (label);
+
+		}
+	}
+
+	// and draw
+	map<int,vector<ofPoint> >::iterator it;
+	for ( it=paths.begin() ; it != paths.end(); it++ ) {
+		int label = (*it).first;
+		vector<ofPoint> p = (*it).second;
+		ofPoint p1, p2;
+		if(p.size()>=2) {
+			p1 = p[0];
+
+			this->mousePressed(p1.x, p1.y, 0);
+
+			for(int j = 1;j < p.size();j++){
+				p2 = p[j];
+
+				this->mouseDragged(p2.x, p2.y, 0);
+			}
+
+			this->mouseReleased(p2.x, p2.y, 0);
+		}
+
+
+	}
+
+}
 
 void OnlineGestureDrawer::draw(void)
 {
@@ -38,6 +89,7 @@ void OnlineGestureDrawer::draw(void)
 	this->initDraw();
 	ofSetColor(0,154,205, 100);
 	this->drawPath(this->g->points());
+	reciveOSC();
 	this->endDraw();
 }
 
@@ -91,17 +143,21 @@ void OnlineGestureDrawer::mouseDragged(int xx, int yy, int btn) {
 			cout << best->name  << loglik << endl;
 			text->setLabel(best->name);
 		} else {
-			cout << "no best matching" << endl;
+			cout << "no best matching " << loglik  << " " << best->name << endl;
 			text->setLabel("no best matching");
+
+//			stringstream ss;
+//			vector<int> centroids_without_repetition = remove_duplicate(g->labels());
+//			ostream_iterator<int> set_string( ss, " " );
+//			copy(centroids_without_repetition.begin(), centroids_without_repetition.end(), set_string);
+//			ss << endl << endl << "labelled points:  ";
+//			ss << to_string(g->labels());
+//
+//			out << ss.str();
+
 		}
 	}
 
-
-//	stringstream ss;
-//	vector<int> centroids_without_repetition = remove_duplicate(g->labels());
-//	ostream_iterator<int> set_string( ss, " " );
-//	copy(centroids_without_repetition.begin(), centroids_without_repetition.end(), set_string);
-//	cout << ss.str() << endl;
 }
 
 //--------------------------------------------------------------

@@ -8,12 +8,19 @@
 #ifndef ONLINEGESTUREDRAWER_H_
 #define ONLINEGESTUREDRAWER_H_
 
+#include "ofxOsc.h"
 
-#include "hObject.h"
-#include "hEvents.h"
-#include "hWidget.h"
-#include "hGui.h"
-#include "hGui_all.h"
+// listen on port 12345
+#define PORT 12345
+#define NUM_MSG_STRINGS 20
+
+#include <map>
+
+#include "../ofxhUtils/src/hEvents/hEvents.h"
+#include "../ofxhUtils/src/hEvents/hObject.h"
+#include "../ofxhGui/src/hGui.h"
+#include "../ofxhGui/src/hWidget.h"
+#include "../ofxhGui/src/hGui_all.h"
 
 
 #include "DrawerWidget.h"
@@ -35,6 +42,8 @@ public:
 
 	void setClassifier(GestureHMMClassifier * c);
 
+	void reciveOSC();
+
 protected:
     Gesture * g;
     vector<ofPoint> centroids;
@@ -42,6 +51,12 @@ protected:
     int frame_size;
 
     GestureHMMClassifier * c;
+
+    ofxOscReceiver	receiver;
+
+    map<int, ofColor> colors;
+	map<int, vector<ofPoint> > paths;
+
 
 };
 

@@ -66,22 +66,7 @@ string to_string(vector<Item>& v, const string& delimiter=" - ") {
 	return ss.str();
 }
 
-template<typename Matrix>
-string matrix_to_string(Matrix& m) {
-	stringstream ss;
-	fix_stream(ss);
-	m.save(ss, arma::arma_ascii);
-	return ss.str();
-}
 
-template<class Matrix>
-Matrix matrix_from_string(string s) {
-	stringstream ss;
-	ss << s;
-	Matrix m;
-	m.load(ss, arma::arma_ascii);
-	return m;
-}
 
 static
 vector<int> intvector_from_string(string s) {
@@ -136,6 +121,25 @@ vector<T> remove_duplicate(vector<T>& vec) {
 		}
 	result.resize(last+1);
 	return result;
+}
+
+
+
+template<typename Matrix>
+string matrix_to_string(Matrix& m) {
+	stringstream ss;
+	fix_stream(ss);
+	m.save(ss, arma::arma_ascii);
+	return ss.str();
+}
+
+template<class Matrix>
+Matrix matrix_from_string(string s) {
+	stringstream ss;
+	ss << s;
+	Matrix m;
+	m.load(ss, arma::arma_ascii);
+	return m;
 }
 
 static

@@ -11,10 +11,9 @@
 #include "ofMain.h"
 #include "ofPoint.h"
 
-#include "hGui.h"
-#include "hEvents.h"
-#include "hWidget.h"
-
+#include "../ofxhGui/src/hGui.h"
+#include "../ofxhGui/src/hWidget.h"
+#include "../ofxhUtils/src/hEvents/hEvents.h"
 
 #include <iostream>
 using namespace std;

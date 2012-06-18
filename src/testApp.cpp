@@ -30,6 +30,7 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
+	
 }
 
 //--------------------------------------------------------------
@@ -129,6 +130,8 @@ void  testApp::_event_classify(hEventArgs& args) {
 	hTextArea * text = static_cast<hTextArea*>(hEvents::getInstance()->getObject("classify_info"));
 
 	Gesture * g = drawer->getGesture();
+	if(g->labels().size() < 2) return;
+
 	GestureHMM* best = c.classify(*g, l);
 
 	stringstream ss;
@@ -176,7 +179,9 @@ void testApp::_event_load(hEventArgs& args) {
 
 	cout << "testApp::_event_load > " << filename << endl;
 
-	GestureHMM::fromXML(filename);
+	GestureHMM * hmm = GestureHMM::fromXML(filename);
+
+    add_hmm(hmm);
 }
 
 

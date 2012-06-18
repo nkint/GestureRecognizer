@@ -5,10 +5,10 @@
 #include "ofImage.h"
 #include "ofSystemUtils.h"
 
-#include "hEvents.h"
-#include "hObject.h"
-#include "hGui_all.h"
-#include "hScrollBar.h"
+#include "ofxhUtils/src/hEvents/hEvents.h"
+#include "ofxhUtils/src/hEvents/hObject.h"
+#include "ofxhGui/src/hGui_all.h"
+#include "ofxhGui/src/hScrollBar.h"
 
 #include "utils.h"
 #include "widget/DrawerWidget.h"
@@ -70,7 +70,9 @@ class testApp : public ofBaseApp, public hObject {
 		hPanel * panel3(hGui * gui, hEvents * events);
 		hPanel * panel4(hGui * gui, hEvents * events);
 
-		vector<Gesture* > train_set;
+//		void skin1();
+//    void toOf(vector<Point3f> & v);
+    vector<Gesture* > train_set;
 		int gesture_number;
 
 		int hmm_number;

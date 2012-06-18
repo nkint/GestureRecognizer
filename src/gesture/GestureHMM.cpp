@@ -85,7 +85,6 @@ GestureHMM* GestureHMM::fromXML(string filename){
 	int alphabet = XML.getValue("alphabet", 0);
 	int hiddenStates = XML.getValue("hiddenStates", 0);
 
-
 	mat prior;
 	mat transmat;
 	mat obsmat;
@@ -112,7 +111,6 @@ GestureHMM* GestureHMM::fromXML(string filename){
 		g->_trainset = gestures;
 	}
 	XML.popTag();
-
 
 	return g;
 }
