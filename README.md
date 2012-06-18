@@ -1,5 +1,6 @@
 # Disclaimer #
-Development is in working progress
+<strike>Development is in working progress</strike>
+This code is no more developped. Check out the new ofxSequence.
 
 # Description #
 Hidden Markov Models is a powerful statistical tool for model time-varying pattern. 
