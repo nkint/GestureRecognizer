@@ -57,7 +57,6 @@ protected:
     map<int, ofColor> colors;
 	map<int, vector<ofPoint> > paths;
 
-
 };
 
 #endif /* ONLINEGESTUREDRAWER_H_ */

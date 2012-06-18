@@ -1,5 +1,5 @@
 # Disclaimer #
-<strike>Development is in working progress</strike>
+<s>Development is in working progress</s>
 
 This code is no more developped. Check out the new ofxSequence.
 
